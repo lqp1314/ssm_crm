@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.4//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 客户类mapper -->
+<mapper namespace="cn.crm.mapper.CustomerMapper" >
+   
+   <!-- 添加SQL片段   注意这里用别名的话 所有的地方都要用别名-->
+   <sql id="customerQueryVo">
+     <where>
+        <!-- 判断这四个对象是否为空 或者是 null -->
+        <if test="custName!=null and custName!=''">
+            <!-- 名字进行模糊查询 -->
+            AND a.cust_name like '%${custName}%'
+        </if>
+        <!-- 来源 -->
+        <if test="custSource!=null and custSource!=''">
+            AND a.cust_source=#{custSource}
+        </if>
+       <if test="custIndustry != null and custIndustry != ''">
+			AND a.cust_industry = #{custIndustry}
+			
+	   </if>
+		<if test="custLevel != null and custLevel != ''">
+			AND a.cust_level = #{custLevel}
+		</if>
+     </where>
+   
+   </sql>
+
+      <!-- 根据queryVo分页查询数据   左连接-->
+       <select id="queryCustomerByQueryVo" resultType="Customer" parameterType="QueryVo">
+        SELECT
+		a.cust_id,
+		a.cust_name,
+		a.cust_user_id,
+		a.cust_create_id,
+		b.dict_item_name cust_source,
+		c.dict_item_name cust_industry,
+		d.dict_item_name cust_level,
+		a.cust_linkman,
+		a.cust_phone,
+		a.cust_mobile,
+		a.cust_zipcode,
+		a.cust_address,
+		a.cust_createtime
+	  FROM
+		customer a
+		LEFT JOIN base_dict b ON a.cust_source = b.dict_id
+		LEFT JOIN base_dict c ON a.cust_industry = c.dict_id
+		LEFT JOIN base_dict d ON a.cust_level = d.dict_id
+       <include refid="customerQueryVo"/>
+       <if test="start!=null">
+         <!-- 每页显示的行数 和每一页第一个的条号 -->
+           limit #{start},#{rows}
+       </if>
+       </select>
+       
+       <!-- 根据queryVo查询数据条数 -->
+       <select id="queryCountByQueryVo" resultType="int" parameterType="QueryVo">
+        select count(*) from customer a
+        <include refid="customerQueryVo"/>
+       </select> 
+       
+       <!--根据id 查询客户 -->
+       <select id="queryCustomerById" parameterType="Integer" resultType="Customer">
+         select *  from customer  where cust_id=#{id} 
+       </select>
+       
+       <!-- 修改客户 通过ID-->
+       <update id="updateCustomerById" parameterType="Customer">
+          update customer 
+            <set>
+               <if test="cust_name!=null and cust_name!='' ">
+                  cust_name=#{cust_name},
+               </if>
+  
+	<if test="cust_create_id !=null">
+		`cust_create_id` = #{cust_create_id},
+	</if>
+	<if test="cust_source !=null and cust_source != ''">
+		`cust_source` = #{cust_source},
+	</if>
+	<if test="cust_industry !=null and cust_industry != ''">
+		`cust_industry` = #{cust_industry},
+	</if>
+	<if test="cust_level !=null and cust_level != ''">
+		`cust_level` = #{cust_level},
+	</if>
+	<if test="cust_linkman !=null and cust_linkman != ''">
+		`cust_linkman` = #{cust_linkman},
+	</if>
+	<if test="cust_phone !=null and cust_phone != ''">
+		`cust_phone` = #{cust_phone},
+	</if>
+	<if test="cust_mobile !=null and cust_mobile != ''">
+		`cust_mobile` = #{cust_mobile},
+	</if>
+	<if test="cust_zipcode !=null and cust_zipcode != ''">
+		`cust_zipcode` = #{cust_zipcode},
+	</if>
+	<if test="cust_address !=null and cust_address != ''">
+		`cust_address` = #{cust_address},
+	</if>          
+   </set>
+	<where>
+			cust_id = #{cust_id}
+	</where>
+       
+       </update>
+       
+       
+       <!-- 删除 通过 ID -->
+       <delete id="deleteCustomerById" parameterType="Integer">
+         delete from customer where cust_id=#{id}       
+       </delete>
+       
+</mapper>

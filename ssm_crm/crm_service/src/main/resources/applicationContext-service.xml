@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx.xsd">
+   
+    <!-- 将声明式事务放到  service （业务）层    业务层是一个个功能  对功能添加事务的管理  
+                  将事务放到 DAO 层 会太细了 因为 dao层是一个一个的持久性操作
+                 将事务放到web层 会太粗了 因为web层的一个请求 可能会牵扯很多的业务处理逻辑  
+     so  将事务放到业务层是最好不过的事情     按照功能来进行 事务管理 
+     -->
+	 <!-- applicationContext-dao 的包 --> 
+	  <import resource="applicationContext-dao.xml"/>
+	  <import resource="applicationContext-trans.xml"/>
+	
+	 <!-- 自动扫描 -->
+	 <context:component-scan base-package="cn.crm.service"></context:component-scan>
+
+
+</beans>

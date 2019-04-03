@@ -1,0 +1,9 @@
+cn\crm\pojo\EasyuiTree.class
+cn\crm\pojo\QueryVo.class
+cn\crm\pojo\Customer.class
+cn\crm\mapper\EasyuiMapper.class
+cn\crm\pojo\BaseDict.class
+cn\crm\utils\Page.class
+cn\crm\utils\NavigationTag.class
+cn\crm\mapper\CustomerMapper.class
+cn\crm\mapper\BaseDictMapper.class

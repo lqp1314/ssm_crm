@@ -1,0 +1,6 @@
+cn\crm\service\impl\BaseDictServiceImpl.class
+cn\crm\service\CustomerService.class
+cn\crm\service\BaseDictService.class
+cn\crm\service\EasyuiService.class
+cn\crm\service\impl\CustomerServiceImpl.class
+cn\crm\service\impl\EasyuiServiceImpl.class

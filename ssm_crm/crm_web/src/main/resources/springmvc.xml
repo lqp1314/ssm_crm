@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+         <import resource="applicationContext-service.xml"/>
+       
+          <!-- 加载默认配置文件信息 -->
+       <context:property-placeholder location="classpath:env.properties" ignore-unresolvable="true"/>
+         <!-- 配置Controll 扫描 -->        
+        <context:component-scan base-package="cn.crm.controller"/>
+        
+        <!-- 配置注解驱动 -->
+         <mvc:annotation-driven/>
+
+      <!-- 解决静态资源无法被springMVC处理的问题 -->
+    <!--    <mvc:default-servlet-handler/> -->
+     <!-- 第二种做法 -->
+     	<!-- 配置资源映射 -->
+	<!-- 
+	  本地位置  location:用于提供静态内容的资源位置，指定的顺序。例如，一个值“/，classpath:/META-INF/public-web-resources/”
+	  url请求的路径    mapping:当前Servlet上下文中用于服务资源的URL映射模式从这个处理程序中，例如“/resources/**”
+	 -->
+     <mvc:resources location="/css/" mapping="/css/**"/>
+     <mvc:resources location="/js/" mapping="/js/**"/>
+     <mvc:resources location="/fonts/" mapping="/fonts/**"/>
+     
+      <!-- 配置视图解析器 -->
+	<bean	class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<!-- 前缀 -->
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<!-- 后缀 -->
+		<property name="suffix" value=".jsp" />
+		
+		
+	</bean>
+
+    
+</beans>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.4//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.crm.mapper.EasyuiMapper">
+
+   <!-- 查看密码和账号是否正确 -->
+   <select id="isLogin" parameterType="String" resultType="int">
+      select count(*) from easyui_users where username=#{username} and password=#{password}
+   </select>
+   
+   <!-- 获取所有菜单信息 -->
+   <select id="selectNavs" parameterType="String" resultType="EasyuiTree">
+      select * from easyui_admin_nav where pid=#{id}
+   </select>
+   
+   <!-- 获得总记录数  -->
+   <select id="getTotal" resultType="int">
+       select count(*) from easyui_admin_nav
+   </select>  
+   
+   <!-- 获得分页数据 -->
+   <select id="getAllRecord" parameterType="int" resultType="EasyuiTree">
+         select * from easyui_admin_nav limit #{startIndex},#{rows}
+   </select>
+</mapper>
